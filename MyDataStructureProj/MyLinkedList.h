@@ -9,6 +9,9 @@ public:
 	~MyLinkedList();
 	MyLinkedList(const MyLinkedList<T> &list);
 	MyLinkedList<T>& operator=(const MyLinkedList<T> &list);
+
+	MyLinkedList(MyLinkedList<T> &&list);
+	MyLinkedList<T>& operator=(MyLinkedList<T> &&list);
 	
 	void Add(T value);
 	
@@ -39,17 +42,19 @@ private:
 	MyLinkedListNode *head;
 };
 
-
 template <class T>
 MyLinkedList<T>::MyLinkedList()
 	:size(0), head(nullptr)
 {	
+	std::cout << this << "  Empty Constructor" << std::endl;
 }
 
 template<class T>
 MyLinkedList<T>::MyLinkedList(const MyLinkedList<T>& list)
 	:MyLinkedList()
 {
+	std::cout << this << "  Copy Constructor" << std::endl;
+
 	MyLinkedListNode *ptr = list.head;
 	while (ptr != nullptr)
 	{
@@ -63,6 +68,8 @@ MyLinkedList<T>::MyLinkedList(const MyLinkedList<T>& list)
 template<class T>
 MyLinkedList<T>& MyLinkedList<T>::operator=(const MyLinkedList<T>& list)
 {
+	std::cout << this << "  Assignment" << std::endl;
+
 	this->RemoveAll();
 
 	MyLinkedListNode *ptr = list.head;
@@ -76,10 +83,33 @@ MyLinkedList<T>& MyLinkedList<T>::operator=(const MyLinkedList<T>& list)
 	return *this;
 }
 
+template<class T>
+MyLinkedList<T>::MyLinkedList(MyLinkedList<T>&& list)
+	:size(list.size), head(list.head)
+{		
+	std::cout << this << "  Move Constructor" << std::endl;
+	list.head = nullptr;
+}
+
+template<class T>
+MyLinkedList<T>& MyLinkedList<T>::operator=(MyLinkedList<T>&& list)
+{
+	std::cout << this << "  Move Assignment" << std::endl;
+
+	this->RemoveAll();
+	this->size = list.size;
+	this->head = list.head;
+
+	list.head = nullptr;
+
+	return *this;
+}
+
 
 template <class T>
 MyLinkedList<T>::~MyLinkedList()
 {	
+	std::cout << this << "  Destructor" << std::endl;
 	RemoveAll();
 }
 
@@ -165,8 +195,6 @@ void MyLinkedList<T>::RemoveAll()
 	size = 0;
 }
 
-
-
 template <class T>
 T* MyLinkedList<T>::GetAt(int i)
 {
@@ -182,7 +210,7 @@ T* MyLinkedList<T>::GetAt(int i)
 }
 
 template <class T>
-size_t MyLinkedList<T>::GetSize()
+inline size_t MyLinkedList<T>::GetSize()
 {
 	return size;
 }

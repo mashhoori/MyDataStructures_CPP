@@ -1,14 +1,2 @@
 ﻿  MyDataStructureProj.cpp
-c:\users\a.mashhoori\documents\visual studio 2015\projects\mydatastructures_cpp\mydatastructureproj\mylinkedlist.h(119): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
-  c:\users\a.mashhoori\documents\visual studio 2015\projects\mydatastructures_cpp\mydatastructureproj\mylinkedlist.h(106): note: while compiling class template member function 'void MyLinkedList<int>::Remove(T)'
-          with
-          [
-              T=int
-          ]
-  c:\users\a.mashhoori\documents\visual studio 2015\projects\mydatastructures_cpp\mydatastructureproj\mydatastructureproj.cpp(28): note: see reference to function template instantiation 'void MyLinkedList<int>::Remove(T)' being compiled
-          with
-          [
-              T=int
-          ]
-  c:\users\a.mashhoori\documents\visual studio 2015\projects\mydatastructures_cpp\mydatastructureproj\mydatastructureproj.cpp(9): note: see reference to class template instantiation 'MyLinkedList<int>' being compiled
   MyDataStructureProj.vcxproj -> C:\Users\a.mashhoori\Documents\Visual Studio 2015\Projects\MyDataStructures_CPP\Debug\MyDataStructureProj.exe
