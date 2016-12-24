@@ -7,11 +7,15 @@ class MyLinkedList
 public:
 	MyLinkedList();
 	~MyLinkedList();
-
+	MyLinkedList(const MyLinkedList<T> &list);
+	MyLinkedList<T>& operator=(const MyLinkedList<T> &list);
+	
 	void Add(T value);
 	
 	void Remove(T value);
 	void RemoveAt(int i);
+	void RemoveAll();
+
 	T* GetAt(int i);
 	size_t GetSize();
 	void Print();
@@ -20,14 +24,14 @@ private:
 	class MyLinkedListNode
 	{
 		friend class MyLinkedList;
-	public:
-		MyLinkedListNode(T val);
-		~MyLinkedListNode() {};
-		void Print();
+		public:
+			MyLinkedListNode(T val);
+			~MyLinkedListNode() {};
+			void Print();
 
-	private:
-		T value;
-		MyLinkedListNode *next;
+		private:
+			T value;
+			MyLinkedListNode *next;
 
 	};
 
@@ -38,22 +42,47 @@ private:
 
 template <class T>
 MyLinkedList<T>::MyLinkedList()
-{
-	size = 0;
-	head = nullptr;
+	:size(0), head(nullptr)
+{	
 }
+
+template<class T>
+MyLinkedList<T>::MyLinkedList(const MyLinkedList<T>& list)
+	:MyLinkedList()
+{
+	MyLinkedListNode *ptr = list.head;
+	while (ptr != nullptr)
+	{
+		T node = ptr->value;
+		this->Add(node);
+
+		ptr = ptr->next;
+	}
+}
+
+template<class T>
+MyLinkedList<T>& MyLinkedList<T>::operator=(const MyLinkedList<T>& list)
+{
+	this->RemoveAll();
+
+	MyLinkedListNode *ptr = list.head;
+	while (ptr != nullptr)
+	{
+		T node = ptr->value;
+		this->Add(node);
+
+		ptr = ptr->next;
+	}
+	return *this;
+}
+
 
 template <class T>
 MyLinkedList<T>::~MyLinkedList()
 {	
-	while (head != nullptr)
-	{
-		MyLinkedListNode* ptr = head->next;
-		delete head;
-		head = ptr;
-	}
-
+	RemoveAll();
 }
+
 
 template <class T>
 void MyLinkedList<T>::Add(T val)
@@ -124,6 +153,20 @@ void MyLinkedList<T>::RemoveAt(int i)
 	--size;
 }
 
+template<class T>
+void MyLinkedList<T>::RemoveAll()
+{
+	while (head != nullptr)
+	{
+		MyLinkedListNode* ptr = head->next;
+		delete head;
+		head = ptr;
+	}
+	size = 0;
+}
+
+
+
 template <class T>
 T* MyLinkedList<T>::GetAt(int i)
 {
@@ -153,14 +196,12 @@ void MyLinkedList<T>::Print()
 		cur = cur->next;
 	}
 	std::cout << std::endl;
-
 }
 
 template <class T>
 MyLinkedList<T>::MyLinkedListNode::MyLinkedListNode(T val)
-{
-	this->value = val;
-	this->next = nullptr;
+	:value(val), next(nullptr)
+{	
 }
 
 template <class T>
